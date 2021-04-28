@@ -2,11 +2,13 @@
 #include<vector>
 #include"TextureLoader.h"
 #include"Background.h"
+#include"Player.h"
 #include"Macros.h"
 
 void InitializeGameObjects(std::vector<GameObject*>& gameObjects)
 {
 	gameObjects.emplace_back(new Background());
+	gameObjects.emplace_back(new Player(150.f, 100.f));
 }
 
 int main() {
@@ -17,6 +19,8 @@ int main() {
 	// Luodaan view, joka käytännössä tarkoittaa kameraa. Asetetaan so koko ikkunan kooksi.
 	sf::View view(sf::FloatRect(0.f, 0.f, 1280.f, 720.f));
 	window.setView(view);
+
+	sf::Clock deltaClock;
 
 	// Luodaan TextureLoader, heap -muistiin. Kaikki objektit jotka luodaa new avainsanalla
 	// PITÄÄ MUISTAA POISTAA (DELETE) ENNEN KUIN NE POISTUU KÄYTÖSTÄ.
@@ -30,9 +34,13 @@ int main() {
 	// suoritetaan kerran joka framessa, eli vähän niinkuin Unityn Update() funktio
 	while (window.isOpen())
 	{
-		float deltaTime = 0.1f;
+		// Deltatime muuttujaan lasketaan framejen välillä kulunut aika
+		float deltaTime = deltaClock.restart().asMicroseconds() * 0.000001f;
 		window.clear();
-	
+		// Liikutetaan viewiä joka frame ylöspäin. Näin saadaan tasainen scrollaus aikaan.
+		view.move(0.f, -75.f * deltaTime);
+		// View pitää myös päivittää ikkunaan
+		window.setView(view);
 		// Tähän väliin kaikki, mitä halutaan piirtää yhden framen aikana 
 		for (GameObject* gameObject : gameObjects) {
 			gameObject->Update(view, deltaTime);

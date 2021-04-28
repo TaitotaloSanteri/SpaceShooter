@@ -4,7 +4,8 @@
 Background::Background()
 {
 	setTexture(TextureLoader::instance->backgroundTexture);
-	setTextureRect(sf::IntRect(0, 0, 1280, 720));
+	setTextureRect(sf::IntRect(0, 0, 1280, 10000));
+	setPosition(0.f, -9280.f);
 }
 
 void Background::Start()

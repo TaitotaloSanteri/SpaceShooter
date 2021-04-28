@@ -1,8 +1,6 @@
 #include "TextureLoader.h"
 #include "Macros.h"
 
-
-
 TextureLoader::TextureLoader()
 {
 	// Jos instansilla ei ole vielä muistiosoitetta, eli sitä ei ole olemassa
@@ -19,6 +17,8 @@ TextureLoader::TextureLoader()
 
 	backgroundTexture.loadFromFile("Graphics/Backgrounds/blue.png");
 	backgroundTexture.setRepeated(true);
+	playerTexture.loadFromFile("Graphics/PNG/playerShip3_blue.png");
+	playerLaserTexture.loadFromFile("Graphics/PNG/Lasers/laserBlue16.png");
 }
 
 TextureLoader::~TextureLoader()
