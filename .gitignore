@@ -30,3 +30,4 @@
 *.out
 *.app
 *.pdb
+*.ipch
