@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Creator.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Creator.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="Macros.h" />

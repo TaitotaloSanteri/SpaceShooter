@@ -1,5 +1,13 @@
-﻿  Generating code
-  Previous IPDB not found, fall back to full compilation.
-  All 26 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+﻿  Background.cpp
+  Creator.cpp
+  GameObject.cpp
+  Laser.cpp
+  Main.cpp
+  Player.cpp
+  TextureLoader.cpp
+  Generating code
+  157 of 172 functions (91.3%) were compiled, the rest were copied from previous compilation.
+    146 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   SpaceShooter.vcxproj -> C:\Projektit\SpaceShooter\Release\SpaceShooter.exe

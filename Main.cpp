@@ -4,6 +4,7 @@
 #include"Background.h"
 #include"Player.h"
 #include"Macros.h"
+#include"Creator.h"
 
 void InitializeGameObjects(std::vector<GameObject*>& gameObjects)
 {
@@ -25,7 +26,10 @@ int main() {
 	// Luodaan TextureLoader, heap -muistiin. Kaikki objektit jotka luodaa new avainsanalla
 	// PITÄÄ MUISTAA POISTAA (DELETE) ENNEN KUIN NE POISTUU KÄYTÖSTÄ.
 	TextureLoader* textureLoader = new TextureLoader();
-
+	// Luodaan Creator, heap -muistiin. Kaikki objektit jotka luodaa new avainsanalla
+	// PITÄÄ MUISTAA POISTAA (DELETE) ENNEN KUIN NE POISTUU KÄYTÖSTÄ.
+	Creator* creator = new Creator();
+	
 	// Luodaan Vektori pitämään kaikki pelissä olevat gameobjektit sisällään.
 	std::vector<GameObject*> gameObjects;
 	InitializeGameObjects(gameObjects);
@@ -41,12 +45,20 @@ int main() {
 		view.move(0.f, -75.f * deltaTime);
 		// View pitää myös päivittää ikkunaan
 		window.setView(view);
+
 		// Tähän väliin kaikki, mitä halutaan piirtää yhden framen aikana 
+		// **************************************************************
 		for (GameObject* gameObject : gameObjects) {
 			gameObject->Update(view, deltaTime);
 			window.draw(*gameObject);
 		}
+		for (GameObject* creatorObject : Creator::instance->gameObjects) {
+			creatorObject->Update(view, deltaTime);
+			window.draw(*creatorObject);
+		}
+		// **************************************************************
 		// Tähän väliin kaikki, mitä halutaan piirtää yhden framen aikana 
+		
 		window.display();
 
 		// Luodaan sf:Event tyyppinen muuttuja, tarkistamaan jos käyttäjä painaa jotain
@@ -64,6 +76,7 @@ int main() {
 				}
 				// Tuhotaan textureLoader, koska sekin on luotu NEW avainsanalla.
 				delete textureLoader;
+				delete creator;
 				// Suljetaan ikkuna
 				window.close();
 			}

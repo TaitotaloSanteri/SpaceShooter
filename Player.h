@@ -8,6 +8,6 @@ public:
 	virtual void Update(sf::View& view, float& deltaTime) override;
 private:
 	float moveSpeed, health;
-	sf::Vector2f localPosition;
+	sf::Vector2f localPosition, laserOffset1, laserOffset2;
 };
 
