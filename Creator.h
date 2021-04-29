@@ -1,6 +1,7 @@
 #pragma once
 #include"GameObject.h"
 #include<vector>
+#include<list>
 class Creator
 {
 public:
@@ -8,6 +9,6 @@ public:
 	~Creator();
 	inline static Creator* instance;
 	void Add(GameObject* obj);
-	std::vector<GameObject*> gameObjects;
+	std::list<GameObject*> gameObjects;
 };
 

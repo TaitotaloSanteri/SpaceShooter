@@ -6,19 +6,24 @@
 #include"Macros.h"
 #include"Enemy.h"
 #include"Creator.h"
+#include"GameManager.h"
+#include<list>
+#include<string>
 
-void InitializeGameObjects(std::vector<GameObject*>& gameObjects)
+void InitializeGameObjects(std::list<GameObject*>& gameObjects)
 {
+	Player* player = new Player(350.f, 100.f);
 	gameObjects.emplace_back(new Background());
-	gameObjects.emplace_back(new Player(350.f, 100.f));
+	gameObjects.emplace_back(player);
 	gameObjects.emplace_back(new Enemy(TextureLoader::instance->ufoRedTexture, 
 									   sf::Vector2f(640.f, -500.f), 50.f, 10.f, 1.f, 5.f));
 	gameObjects.emplace_back(new Enemy(TextureLoader::instance->ufoYellowTexture,
 		sf::Vector2f(140.f, -950.f), 90.f, 10.f, 1.f, 5.f));
 	gameObjects.emplace_back(new Enemy(TextureLoader::instance->ufoGreenTexture,
 		sf::Vector2f(1000.f, -750.f), 32.f, 10.f, 1.f, 5.f));
+	GameManager::instance->player = player;
 }
-void UpdateGameObjects(std::vector<GameObject*>& gameObjects,
+void UpdateGameObjects(std::list<GameObject*>& gameObjects,
 	sf::RenderWindow& window,
 	sf::View& view,
 	float& deltaTime)
@@ -73,11 +78,16 @@ int main() {
 	// Luodaan Creator, heap -muistiin. Kaikki objektit jotka luodaa new avainsanalla
 	// PITÄÄ MUISTAA POISTAA (DELETE) ENNEN KUIN NE POISTUU KÄYTÖSTÄ.
 	Creator* creator = new Creator();
-	
+	GameManager* gameManager = new GameManager();
 	// Luodaan Vektori pitämään kaikki pelissä olevat gameobjektit sisällään.
-	std::vector<GameObject*> gameObjects;
+	std::list<GameObject*> gameObjects;
 	InitializeGameObjects(gameObjects);
 	
+	sf::Font font;
+	font.loadFromFile("Poppins-Regular.ttf");
+
+	sf::Text text;
+	text.setFont(font);
 	// Luodaan while looppi, joka pyörii niin kauan kuin ikkuna on auki. While loop
 	// suoritetaan kerran joka framessa, eli vähän niinkuin Unityn Update() funktio
 	while (window.isOpen())
@@ -95,6 +105,10 @@ int main() {
 		// **************************************************************
 		UpdateGameObjects(gameObjects, window, view, deltaTime);
 		UpdateGameObjects(Creator::instance->gameObjects, window, view, deltaTime);
+		std::string fps = "FPS " + std::to_string(1.f / deltaTime);
+		text.setString(fps);
+		text.setPosition(view.getCenter() - sf::Vector2(400.f, 300.f));
+		window.draw(text);
 		// **************************************************************
 		// Tähän väliin kaikki, mitä halutaan piirtää yhden framen aikana 
 		
@@ -117,6 +131,7 @@ int main() {
 				// Tuhotaan textureLoader, koska sekin on luotu NEW avainsanalla.
 				delete textureLoader;
 				delete creator;
+				delete gameManager;
 				// Suljetaan ikkuna
 				window.close();
 			}

@@ -51,21 +51,24 @@ void Player::Update(sf::View& view, float& deltaTime)
 	// Jos pelaaja haluaa ampua
 	if (canShoot && Key::isKeyPressed(Key::Space))
 	{
-		canShoot = false;
-		Creator::instance->Add(new Laser(
-			TextureLoader::instance->playerLaserTexture,
-			view.getCenter() + localPosition + laserOffset1,
-			450.f,
-			10.f,
-			sf::Vector2f(0.f, -1.f)
-		));
-		Creator::instance->Add(new Laser(
-			TextureLoader::instance->playerLaserTexture,
-			view.getCenter() + localPosition + laserOffset2,
-			450.f,
-			10.f,
-			sf::Vector2f(0.f, -1.f)
-		));
+		for (int i = 0; i < 5000; ++i)
+		{
+			canShoot = false;
+			Creator::instance->Add(new Laser(
+				TextureLoader::instance->playerLaserTexture,
+				view.getCenter() + localPosition + laserOffset1,
+				450.f,
+				10.f,
+				sf::Vector2f(0.f, -1.f)
+			));
+			Creator::instance->Add(new Laser(
+				TextureLoader::instance->playerLaserTexture,
+				view.getCenter() + localPosition + laserOffset2,
+				450.f,
+				10.f,
+				sf::Vector2f(0.f, -1.f)
+			));
+		}
 	}
 	setPosition(view.getCenter() + localPosition);
 }

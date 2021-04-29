@@ -9,5 +9,6 @@ public:
 	virtual void Update(sf::View& view, float& deltaTime) override;
 private:
 	float moveSpeed, onGoingReload, reloadInterval, damage;
+	bool canShoot;
 };
 
