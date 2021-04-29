@@ -29,10 +29,3 @@ void Creator::Add(GameObject* obj)
 {
 	gameObjects.emplace_back(obj);
 }
-
-void Creator::Remove(GameObject* obj)
-{
-	// std::findia käytään objektin indeksin löytämiseen, jotta se voidaan poistaa vektorista.
-	auto index = std::find(gameObjects.begin(), gameObjects.end(), obj);
-	gameObjects.erase(index);
-}

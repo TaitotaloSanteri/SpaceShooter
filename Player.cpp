@@ -6,7 +6,8 @@
 using Key = sf::Keyboard;
 Player::Player(float moveSpeed, float health)
 	: moveSpeed(moveSpeed), health(health), localPosition(0.f, 0.f),
-	laserOffset1(-32.5f, -55.f), laserOffset2(20.f, -55.f)
+	laserOffset1(-32.5f, -55.f), laserOffset2(20.f, -55.f), canShoot(true),
+	onGoingReloadTime(0.f), reloadInterval(0.6f)
 {
 	setTexture(TextureLoader::instance->playerTexture);
 	// setOrigin asettaa pivot pointin
@@ -37,19 +38,31 @@ void Player::Update(sf::View& view, float& deltaTime)
 		localPosition.y += moveSpeed * deltaTime;
 	}
 
-	if (Key::isKeyPressed(Key::Space))
+	if (!canShoot)
 	{
+		onGoingReloadTime += deltaTime;
+		if (onGoingReloadTime >= reloadInterval)
+		{
+			onGoingReloadTime = 0.f;
+			canShoot = true;
+		}
+	}
+
+	// Jos pelaaja haluaa ampua
+	if (canShoot && Key::isKeyPressed(Key::Space))
+	{
+		canShoot = false;
 		Creator::instance->Add(new Laser(
 			TextureLoader::instance->playerLaserTexture,
 			view.getCenter() + localPosition + laserOffset1,
-			300.f,
+			450.f,
 			10.f,
 			sf::Vector2f(0.f, -1.f)
 		));
 		Creator::instance->Add(new Laser(
 			TextureLoader::instance->playerLaserTexture,
 			view.getCenter() + localPosition + laserOffset2,
-			300.f,
+			450.f,
 			10.f,
 			sf::Vector2f(0.f, -1.f)
 		));

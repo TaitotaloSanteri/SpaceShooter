@@ -24,7 +24,7 @@ void Laser::Update(sf::View& view, float& deltaTime)
 	currentLifeTime += deltaTime;
 	if (currentLifeTime >= maxLifeTime)
 	{
-		Creator::instance->Remove(this);
+		isDestroyed = true;
 	}
 	
 }

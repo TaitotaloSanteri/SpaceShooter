@@ -7,7 +7,8 @@ public:
 	virtual void Start() override;
 	virtual void Update(sf::View& view, float& deltaTime) override;
 private:
-	float moveSpeed, health;
+	float moveSpeed, health, onGoingReloadTime, reloadInterval;
 	sf::Vector2f localPosition, laserOffset1, laserOffset2;
+	bool canShoot;
 };
 

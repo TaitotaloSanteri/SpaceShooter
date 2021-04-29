@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+// Tämä luokka on tekstuurien ylläpitämistä varten. Näin varmistetaan se, että jokainen tekstuuri
+// ladataan muistiin vain kerran.
 class TextureLoader
 {
 public:

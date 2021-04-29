@@ -8,7 +8,6 @@ public:
 	~Creator();
 	inline static Creator* instance;
 	void Add(GameObject* obj);
-	void Remove(GameObject* obj);
 	std::vector<GameObject*> gameObjects;
 };
 

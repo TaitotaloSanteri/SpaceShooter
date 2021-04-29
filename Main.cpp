@@ -9,7 +9,7 @@
 void InitializeGameObjects(std::vector<GameObject*>& gameObjects)
 {
 	gameObjects.emplace_back(new Background());
-	gameObjects.emplace_back(new Player(150.f, 100.f));
+	gameObjects.emplace_back(new Player(350.f, 100.f));
 }
 
 int main() {
@@ -21,6 +21,7 @@ int main() {
 	sf::View view(sf::FloatRect(0.f, 0.f, 1280.f, 720.f));
 	window.setView(view);
 
+	// Deltaclock luodaan sit‰ varten, ett‰ voidaan yll‰ deltaTimea.
 	sf::Clock deltaClock;
 
 	// Luodaan TextureLoader, heap -muistiin. Kaikki objektit jotka luodaa new avainsanalla
@@ -40,10 +41,11 @@ int main() {
 	{
 		// Deltatime muuttujaan lasketaan framejen v‰lill‰ kulunut aika
 		float deltaTime = deltaClock.restart().asMicroseconds() * 0.000001f;
+		// Joka framen aluksi ikkunasta poistetaan kaikki grafiikka.
 		window.clear();
 		// Liikutetaan viewi‰ joka frame ylˆsp‰in. N‰in saadaan tasainen scrollaus aikaan.
 		view.move(0.f, -75.f * deltaTime);
-		// View pit‰‰ myˆs p‰ivitt‰‰ ikkunaan
+		// View pit‰‰ myˆs p‰ivitt‰‰ ikkunaan joka frame.
 		window.setView(view);
 
 		// T‰h‰n v‰liin kaikki, mit‰ halutaan piirt‰‰ yhden framen aikana 
@@ -59,6 +61,7 @@ int main() {
 		// **************************************************************
 		// T‰h‰n v‰liin kaikki, mit‰ halutaan piirt‰‰ yhden framen aikana 
 		
+		// Kutsutaan window.display, ett‰ kaikki piirretty grafiikka n‰ytet‰‰n.
 		window.display();
 
 		// Luodaan sf:Event tyyppinen muuttuja, tarkistamaan jos k‰ytt‰j‰ painaa jotain
