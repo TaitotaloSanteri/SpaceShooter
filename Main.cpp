@@ -4,15 +4,58 @@
 #include"Background.h"
 #include"Player.h"
 #include"Macros.h"
+#include"Enemy.h"
 #include"Creator.h"
 
 void InitializeGameObjects(std::vector<GameObject*>& gameObjects)
 {
 	gameObjects.emplace_back(new Background());
 	gameObjects.emplace_back(new Player(350.f, 100.f));
+	gameObjects.emplace_back(new Enemy(TextureLoader::instance->ufoRedTexture, 
+									   sf::Vector2f(640.f, -500.f), 50.f, 10.f, 1.f, 5.f));
+	gameObjects.emplace_back(new Enemy(TextureLoader::instance->ufoYellowTexture,
+		sf::Vector2f(140.f, -950.f), 90.f, 10.f, 1.f, 5.f));
+	gameObjects.emplace_back(new Enemy(TextureLoader::instance->ufoGreenTexture,
+		sf::Vector2f(1000.f, -750.f), 32.f, 10.f, 1.f, 5.f));
+}
+void UpdateGameObjects(std::vector<GameObject*>& gameObjects,
+	sf::RenderWindow& window,
+	sf::View& view,
+	float& deltaTime)
+{
+	// it = iterator
+	for (auto it = gameObjects.begin(); it != gameObjects.end();)
+	{
+		// (*it) ottaa iteraattorin tyypin, joka on meid‰n tapauksessa GameObject*
+		(*it)->Update(view, deltaTime);
+		// *(*it) muuttaa sen ensiksi GameObject* tyyppiseksi, josta sitten sulkujen ulkopuolella
+		// olevalla * muutetaan se GameObject tyyppiseksi.
+		window.draw(*(*it));
+		// Tarkistaan if -lauseella, jos kyseinen GameObject on tuhottu (isDestroyed)
+		
+		// Jos se on tuhottu, deletoidaan (koska se on heap -muistissa), sek‰ poistetaan
+		// se gameObjects vectorista (gameObject.erase(it)), ja asetetaan iteraattorin it
+		// arvo manuaalisesti.
+		
+		// Jos sit‰ ei ole tuhottu, niin kasvatetaan iteraattorin arvoa yhdell‰ normaalisti
+		// ++it
+
+		// HUOM! Delete ennen erasea!!!
+		if ((*it)->isDestroyed)
+		{
+			delete (*it);
+			it = gameObjects.erase(it);
+			continue;
+		}
+		++it;
+	}
 }
 
 int main() {
+	int numero = 10;
+	int* numeroPointteri = &numero;
+	LOG(numeroPointteri);
+	LOG(*numeroPointteri);
 	// Luodaan ikkuna. Luodaan _aina_ ensimm‰isen‰.
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Space Shooter");
 	window.setFramerateLimit(120);
@@ -50,14 +93,8 @@ int main() {
 
 		// T‰h‰n v‰liin kaikki, mit‰ halutaan piirt‰‰ yhden framen aikana 
 		// **************************************************************
-		for (GameObject* gameObject : gameObjects) {
-			gameObject->Update(view, deltaTime);
-			window.draw(*gameObject);
-		}
-		for (GameObject* creatorObject : Creator::instance->gameObjects) {
-			creatorObject->Update(view, deltaTime);
-			window.draw(*creatorObject);
-		}
+		UpdateGameObjects(gameObjects, window, view, deltaTime);
+		UpdateGameObjects(Creator::instance->gameObjects, window, view, deltaTime);
 		// **************************************************************
 		// T‰h‰n v‰liin kaikki, mit‰ halutaan piirt‰‰ yhden framen aikana 
 		

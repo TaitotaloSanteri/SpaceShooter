@@ -10,7 +10,8 @@ public:
 	TextureLoader();
 	// Destruktori 
 	~TextureLoader();
-	sf::Texture backgroundTexture, playerTexture, playerLaserTexture;
+	sf::Texture backgroundTexture, playerTexture, playerLaserTexture,
+				ufoBlueTexture, ufoYellowTexture, ufoGreenTexture, ufoRedTexture, enemyLaserTexture;
 	// Singleton (pit‰‰ olla pointteri eli *) Inline avainsana tarkoittaa sit‰
 	// ett‰ static tyyppisen muuttujan arvoa ei tarvitse heti m‰‰ritt‰‰ vaan sen voi tehd‰ myˆhemmin
 	inline static TextureLoader* instance;

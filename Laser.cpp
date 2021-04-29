@@ -26,5 +26,4 @@ void Laser::Update(sf::View& view, float& deltaTime)
 	{
 		isDestroyed = true;
 	}
-	
 }

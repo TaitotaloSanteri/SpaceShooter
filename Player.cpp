@@ -5,12 +5,12 @@
 
 using Key = sf::Keyboard;
 Player::Player(float moveSpeed, float health)
-	: moveSpeed(moveSpeed), health(health), localPosition(0.f, 0.f),
+	: moveSpeed(moveSpeed), localPosition(0.f, 0.f),
 	laserOffset1(-32.5f, -55.f), laserOffset2(20.f, -55.f), canShoot(true),
-	onGoingReloadTime(0.f), reloadInterval(0.6f)
+	onGoingReloadTime(0.f), reloadInterval(0.6f), IDamageAble(&isDestroyed, health, health)
 {
 	setTexture(TextureLoader::instance->playerTexture);
-	// setOrigin asettaa pivot pointin
+	// setOrigin asettaa pivot pointing
 	setOrigin((sf::Vector2f) getTexture()->getSize() * 0.5f);
 }
 
